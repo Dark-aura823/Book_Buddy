@@ -4,7 +4,6 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import requests
-import yaml
 import joblib
 import urllib.parse
 from difflib import get_close_matches
