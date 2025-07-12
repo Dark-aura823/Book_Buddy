@@ -1,1 +1,9 @@
 
+streamlit
+pandas
+numpy
+requests
+pyyaml
+joblib
+scikit-learn
+streamlit-authenticator
