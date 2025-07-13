@@ -680,6 +680,17 @@ with tab4:
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
 
     <style>
+    textarea, input[type="text"] {
+            background-color: #ffffff !important;
+            color: #333333 !important;
+            border: 1px solid #ccc !important;
+            border-radius: 10px !important;
+            padding: 10px !important;
+            font-size: 16px !important;
+        }
+        ::placeholder {
+            color: #999999 !important;
+        }
     .romantic-heading {
         font-family: 'Satisfy', cursive;
         font-size: 2em;
