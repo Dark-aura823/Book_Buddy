@@ -924,9 +924,42 @@ st.markdown("""
     """, unsafe_allow_html=True)
 
 with tab7:
-    st.header("🤖 Book Buddy AI Chatbot Assistant")
+    st.markdown(
+        """
+        <style>
+        .chat-header {
+            font-size: 28px;
+            font-weight: bold;
+            color: #2e86de;
+            margin-bottom: 20px;
+        }
+        .chat-bubble-user {
+            background-color: #dff9fb;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 10px;
+            border: 1px solid #c7ecee;
+            max-width: 90%;
+            align-self: flex-end;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+        }
+        .chat-bubble-assistant {
+            background-color: #f0f8ff;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 10px;
+            border: 1px solid #a9cce3;
+            max-width: 90%;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
 
-    # Initialize chat messages history
+    st.markdown('<div class="chat-header">🤖 Book Buddy AI Chatbot Assistant</div>', unsafe_allow_html=True)
+
+    # Initialize message history
     if "messages" not in st.session_state:
         st.session_state.messages = [
             {
@@ -941,18 +974,18 @@ with tab7:
 
     # Display previous messages
     for msg in st.session_state.messages[1:]:
-        with st.chat_message(msg["role"]):
-            st.markdown(msg["content"])
+        role_class = "chat-bubble-user" if msg["role"] == "user" else "chat-bubble-assistant"
+        st.markdown(f'<div class="{role_class}">{msg["content"]}</div>', unsafe_allow_html=True)
 
-    # User input
+    # Chat input
     prompt = st.chat_input("What kind of book are you looking for?")
 
     if prompt:
-        # Show user's message
-        st.chat_message("user").markdown(prompt)
         st.session_state.messages.append({"role": "user", "content": prompt})
 
-        # Prepare Groq API call
+        # Show user message immediately
+        st.markdown(f'<div class="chat-bubble-user">{prompt}</div>', unsafe_allow_html=True)
+
         headers = {
             "Authorization": f"Bearer {st.secrets['GROQ_API_KEY']}",
             "Content-Type": "application/json"
@@ -975,21 +1008,5 @@ with tab7:
             except Exception as e:
                 reply = f"❌ API request failed: {e}"
 
-        # Show assistant reply in a styled box
-        st.chat_message("assistant").markdown(
-            f"""
-            <div style="
-                background-color: #f0f8ff;
-                padding: 15px;
-                border-radius: 10px;
-                border: 1px solid #a9cce3;
-                font-size: 16px;
-                line-height: 1.4;
-            ">
-                {reply}
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-
+        st.markdown(f'<div class="chat-bubble-assistant">{reply}</div>', unsafe_allow_html=True)
         st.session_state.messages.append({"role": "assistant", "content": reply})
